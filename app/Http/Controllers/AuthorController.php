@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AuthorController extends Controller
@@ -38,8 +37,10 @@ class AuthorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Author $author)
-    {
-        //
+    {        
+        return response()->json([
+            'message' => $author
+        ], 200);
     }
 
     /**
@@ -65,17 +66,27 @@ class AuthorController extends Controller
         //
     }
 
-    public function usertoauthor(User $user)
+    public function usertoauthor(StoreAuthorRequest $request)
     {
-        dd(Auth::user()->id, $user->id);
-        if (Auth::user()->id == $user->id && ) {
-            $user->update(['flauthor', 'Y']);
+        $user = Auth::user();
+        $validated = $request->validated();
+        if ($user->flauthor == trim('Y')) {
             return response()->json([
-                'data' => 'success'
+                'message' => 'The user is already an author',
+            ], 400);
+        } else {
+            $user->update(['flauthor', 'Y']);
+            if (isset($validated['arr_genres'])) {
+                $validated['arr_genres'] = '['.$validated['arr_genres'].']';
+            }
+            $validated['user_id'] = $user->id;
+            // dd($validated);
+            $author = Author::create($validated);
+            
+            return response()->json([
+                'message' => 'success',
+                'data' => $author,
             ], 200);
         }
-        return response()->json([
-            'data' => 'You can only change your own account info'
-        ], 403);
     }
 }

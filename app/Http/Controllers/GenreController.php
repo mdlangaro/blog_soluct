@@ -84,7 +84,6 @@ class GenreController extends Controller
 
         return response()->json([
             'message' => 'Success',
-            'data' => $genre
         ], 200);
     }
 

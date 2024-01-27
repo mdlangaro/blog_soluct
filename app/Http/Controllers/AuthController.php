@@ -14,11 +14,9 @@ class AuthController extends Controller
         if (!$login) {
             return response()->json([
                 'message' => 'Invalid Credentials',
-            ]);
+            ], 401);
         }
         $user = Auth::user();
-        
-        // dd($user);
         $token = $user->createToken($request->device_name ?: 'web-api')->plainTextToken;
         
         return response()->json([
@@ -34,6 +32,7 @@ class AuthController extends Controller
         });
         
         return response()->json([
-            'message' => 'Successfully disconnected']);
+            'message' => 'Successfully disconnected'
+        ]);
     }
 }

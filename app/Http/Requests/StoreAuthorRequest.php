@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ExistsGenres;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAuthorRequest extends FormRequest
@@ -13,7 +14,7 @@ class StoreAuthorRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,8 @@ class StoreAuthorRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'about' => ['string'],
+            'arr_genres' => new ExistsGenres,
         ];
     }
 }

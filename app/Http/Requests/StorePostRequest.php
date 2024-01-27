@@ -3,13 +3,14 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
+     * @return bool 
      */
     public function authorize()
     {
@@ -25,6 +26,8 @@ class StorePostRequest extends FormRequest
     {
         return [
             'content' => ['required', 'string'],
+            'category_id' => ['nullable', 'exists:categories,id'],
+            'genre_id' => ['nullable', 'exists:genres,id'],
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -25,8 +26,8 @@ class UpdatePostRequest extends FormRequest
     {
         return [
             'content' => ['string'],
-            'genre_id' => ['integer'],
-            'category_id' => ['integer'],
+            'category_id' => ['exists:categories,id'],
+            'genre_id' => ['exists:genres,id'],
         ];
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddViewCountInPostsTable extends Migration
+class AddUserIdTableAuthors extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddViewCountInPostsTable extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->bigInteger('view_count')->default(0);
+        Schema::table('authors', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -25,7 +26,7 @@ class AddViewCountInPostsTable extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('authors', function (Blueprint $table) {
             //
         });
     }

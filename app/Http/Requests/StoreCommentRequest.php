@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCommentRequest extends FormRequest
 {
@@ -25,8 +26,7 @@ class StoreCommentRequest extends FormRequest
     {
         return [
             'content' => ['string'],
-            'post_id' => ['integer'],
-            'user_id' => ['integer'],
+            'post_id' => ['integer', 'required', 'exists:posts,id'],
         ];
     }
 }

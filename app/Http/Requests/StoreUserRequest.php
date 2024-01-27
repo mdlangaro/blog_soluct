@@ -35,7 +35,6 @@ class StoreUserRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($this->id, 'id')
             ],
             'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()],
-            'flauthor' => ['string', Rule::in(['Y', 'N'])]
         ];
     }
 }

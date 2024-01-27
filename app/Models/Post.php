@@ -12,11 +12,11 @@ class Post extends Model
 
     protected $fillable = [
         'content',
-        'like',
+        'acceptability',
         'category_id',
         'genre_id',
         'user_id',
-        'viewcount'
+        'view_count'
     ];
 
     public function category()
@@ -32,5 +32,15 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 }

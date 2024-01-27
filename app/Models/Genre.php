@@ -15,6 +15,8 @@ class Genre extends Model
         'content',
     ];
 
+    protected $table = 'genres';
+
     public function post()
     {
         return $this->belongsTo(Post::class);

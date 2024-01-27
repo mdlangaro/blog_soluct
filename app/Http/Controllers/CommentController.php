@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\UpdateCommentRequest;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -16,6 +17,11 @@ class CommentController extends Controller
     public function index($post_id)
     {
         $comments = Comment::all()->where('post_id', $post_id);
+        if ($comments->isEmpty()) {
+            return response()->json([
+                'message' => 'None comment linked to this post.'
+            ], 200);
+        };
 
         return response()->json([
             'message' => $comments
@@ -50,6 +56,26 @@ class CommentController extends Controller
         return response()->json([
             'message' => $comment
         ], 200);
+    }
+
+    public function update(UpdateCommentRequest $request, Comment $comment)
+    {
+        $user = Auth::user();
+        if ($comment->user_id != $user->id) {
+            return response()->json([
+                'data' => 'User is not the author'
+            ], 403);
+        }
+        $return = $comment->update($request->validated());
+        if ($return) {
+            return response()->json([
+                'message' => 'Success'
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Internal error'
+        ], 500);
     }
 
     /**
